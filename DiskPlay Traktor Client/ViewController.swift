@@ -10,6 +10,8 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+	var midiControl = MidiController()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 

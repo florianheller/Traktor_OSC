@@ -11,6 +11,8 @@
 		4C2F9D181DDCF79B009021D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D171DDCF79B009021D6 /* ViewController.swift */; };
 		4C2F9D1A1DDCF79B009021D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C2F9D191DDCF79B009021D6 /* Assets.xcassets */; };
 		4C2F9D1D1DDCF79B009021D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C2F9D1B1DDCF79B009021D6 /* Main.storyboard */; };
+		4C2F9D271DDCFD72009021D6 /* DisplayDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D261DDCFD72009021D6 /* DisplayDecoder.swift */; };
+		4C3E5EBF1DDDBFC1002A5AAE /* MidiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		4C2F9D191DDCF79B009021D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4C2F9D1C1DDCF79B009021D6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4C2F9D1E1DDCF79B009021D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C2F9D261DDCFD72009021D6 /* DisplayDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayDecoder.swift; sourceTree = "<group>"; };
+		4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidiController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,8 @@
 		4C2F9D141DDCF79B009021D6 /* DiskPlay Traktor Client */ = {
 			isa = PBXGroup;
 			children = (
+				4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */,
+				4C2F9D261DDCFD72009021D6 /* DisplayDecoder.swift */,
 				4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */,
 				4C2F9D171DDCF79B009021D6 /* ViewController.swift */,
 				4C2F9D191DDCF79B009021D6 /* Assets.xcassets */,
@@ -134,6 +140,8 @@
 			files = (
 				4C2F9D181DDCF79B009021D6 /* ViewController.swift in Sources */,
 				4C2F9D161DDCF79B009021D6 /* AppDelegate.swift in Sources */,
+				4C3E5EBF1DDDBFC1002A5AAE /* MidiController.swift in Sources */,
+				4C2F9D271DDCFD72009021D6 /* DisplayDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +294,7 @@
 				4C2F9D231DDCF79B009021D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
