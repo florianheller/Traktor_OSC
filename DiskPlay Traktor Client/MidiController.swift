@@ -109,13 +109,17 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 	///The reception block whenever a new MIDI packet arrives
 	/// - parameter midiPackets: A list of MIDI packets
 	/// - parameter additional: An optional additional pointer
-	func midiReadBlock(midiPackets:UnsafePointer<MIDIPacketList>, additional: UnsafeMutableRawPointer?) {
-		let packets = midiPackets.pointee
-		var packet:MIDIPacket = packets.packet
+	func midiReadBlock(midiPacketList:UnsafePointer<MIDIPacketList>, additional: UnsafeMutableRawPointer?) {
+		let packets = midiPacketList.pointee
+		let packet:MIDIPacket = packets.packet
+		
+		var currentPacket = UnsafeMutablePointer<MIDIPacket>.allocate(capacity: 1)
+		currentPacket.initialize(to:packet)
 		
 		for _ in 0 ..< packets.numPackets {
-			processPacket(packet: packet)
-			packet = MIDIPacketNext(&packet).pointee
+			let p = currentPacket.pointee
+			processPacket(packet: p)
+			currentPacket = MIDIPacketNext(currentPacket)
 		}
 	}
 
