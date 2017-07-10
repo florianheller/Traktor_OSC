@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C01383F1F13A2DF0058A47A /* MIDIPacket+SequenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */; };
+		4C0138411F13ABE70058A47A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0138401F13ABE70058A47A /* Message.swift */; };
 		4C2F9D161DDCF79B009021D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */; };
 		4C2F9D181DDCF79B009021D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D171DDCF79B009021D6 /* ViewController.swift */; };
 		4C2F9D1A1DDCF79B009021D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C2F9D191DDCF79B009021D6 /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDIPacket+SequenceType.swift"; sourceTree = "<group>"; };
+		4C0138401F13ABE70058A47A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4C2F9D121DDCF79B009021D6 /* DiskPlay Traktor Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DiskPlay Traktor Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C2F9D171DDCF79B009021D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,7 +60,9 @@
 		4C2F9D141DDCF79B009021D6 /* DiskPlay Traktor Client */ = {
 			isa = PBXGroup;
 			children = (
+				4C0138401F13ABE70058A47A /* Message.swift */,
 				4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */,
+				4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */,
 				4C2F9D261DDCFD72009021D6 /* DisplayDecoder.swift */,
 				4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */,
 				4C2F9D171DDCF79B009021D6 /* ViewController.swift */,
@@ -141,6 +147,8 @@
 				4C2F9D181DDCF79B009021D6 /* ViewController.swift in Sources */,
 				4C2F9D161DDCF79B009021D6 /* AppDelegate.swift in Sources */,
 				4C3E5EBF1DDDBFC1002A5AAE /* MidiController.swift in Sources */,
+				4C0138411F13ABE70058A47A /* Message.swift in Sources */,
+				4C01383F1F13A2DF0058A47A /* MIDIPacket+SequenceType.swift in Sources */,
 				4C2F9D271DDCFD72009021D6 /* DisplayDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

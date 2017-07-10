@@ -11,6 +11,7 @@ import CoreMIDI
 
 class MidiController: NSObject,DisplayDecoderDelegate {
 
+	
 	// Midi connection details
 	var midiInputClient = MIDIClientRef()
 	var midiClient = MIDIClientRef()
@@ -28,6 +29,7 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 	let diskPlayMidiController = 0xBF
 	
 	var displayDecoder = DisplayDecoder()
+	weak var viewController:ViewController?
 	
 	//MARK:Object Lifecycle
 	override init() {
@@ -123,32 +125,56 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 		}
 	}
 
+
 	//MARK: Packet processing
-	
+
+
 	func processPacket(packet: MIDIPacket) {
 		
-		let bytes = Mirror(reflecting: packet.data).children
-		var dumpStr = ""
-		// The Denon stuff goes to the display decoder
-		if (packet.data.0 == 0xB0 || packet.data.0 == 0xB1) {
-			
-			displayDecoder.midiProc(a: packet.data.0, b: packet.data.1, c: packet.data.2)
-			return
-		}
+		//Iterate over this for all controller data in the midi packet
 		
-		// bytes mirror contains all the zero values in the ridiulous packet data tuple
-		// so use the packet length to iterate.
-		var i = packet.length
-		for (_, attr) in bytes.enumerated()
-		{
-			dumpStr += String(format:"$%02X ", attr.value as! UInt8)
-			i -= 1
-			if (i <= 0)
-			{
-				break
+
+		for message in packet {
+			// The Denon stuff goes to the display decoder
+			if (message.status == 0xB0 || message.status == 0xB1) {
+				
+				if (viewController != nil) {
+					switch ( message.data1 ) {
+					case 0x01: viewController?.updateByte(msb: true, segment: 0, value: message.data2);
+					case 0x02: viewController?.updateByte(msb: true, segment: 1, value: message.data2);
+					case 0x03: viewController?.updateByte(msb: true, segment: 2, value: message.data2);
+					case 0x04: viewController?.updateByte(msb: true, segment: 3, value: message.data2);
+					case 0x05: viewController?.updateByte(msb: true, segment: 4, value: message.data2);
+					case 0x07: viewController?.updateByte(msb: true, segment: 5, value: message.data2);
+					case 0x08: viewController?.updateByte(msb: true, segment: 6, value: message.data2);
+					case 0x09: viewController?.updateByte(msb: true, segment: 7, value: message.data2);
+					case 0x0A: viewController?.updateByte(msb: true, segment: 8,  value: message.data2);
+					case 0x0B: viewController?.updateByte(msb: true, segment: 9, value: message.data2);
+					case 0x0C: viewController?.updateByte(msb: true, segment: 10, value: message.data2);
+					case 0x0D: viewController?.updateByte(msb: true, segment: 11, value: message.data2);
+						
+					case 0x21: viewController?.updateByte(msb: false, segment: 0, value: message.data2);
+					case 0x22: viewController?.updateByte(msb: false, segment: 1, value: message.data2);
+					case 0x23: viewController?.updateByte(msb: false, segment: 2, value: message.data2);
+					case 0x24: viewController?.updateByte(msb: false, segment: 3, value: message.data2);
+					case 0x25: viewController?.updateByte(msb: false, segment: 4, value: message.data2);
+					case 0x27: viewController?.updateByte(msb: false, segment: 5, value: message.data2);
+					case 0x28: viewController?.updateByte(msb: false, segment: 6, value: message.data2);
+					case 0x29: viewController?.updateByte(msb: false, segment: 7, value: message.data2);
+					case 0x2A: viewController?.updateByte(msb: false, segment: 8, value: message.data2);
+					case 0x2B: viewController?.updateByte(msb: false, segment: 9, value: message.data2);
+					case 0x2C: viewController?.updateByte(msb: false, segment: 10, value: message.data2);
+					case 0x2D: viewController?.updateByte(msb: false, segment: 11, value: message.data2);
+					default: break
+					}
+				}
+				displayDecoder.midiProc(a: packet.data.0, b: packet.data.1, c: packet.data.2)
+				//return
 			}
 		}
-		print(dumpStr)
+		
+		
+
 	}
 	
 	//MARK:Sending
