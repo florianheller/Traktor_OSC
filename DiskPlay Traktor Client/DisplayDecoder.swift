@@ -74,6 +74,8 @@ class DisplayDecoder: NSObject {
 	var line_static_str        = [ "", "", "", "" ]
 	var line_static_str_SHADOW = [ "", "", "", "" ]
 
+	var MSBs:[UInt8] = [0 ,0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]
+	var LSBs:[UInt8] = [0 ,0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]
 	
 	func removeMultipleUnderscores (aString:String) -> String {
 		var str = aString.replacingOccurrences(of: "__", with: "_")
@@ -140,7 +142,8 @@ class DisplayDecoder: NSObject {
 			line_static_str_SHADOW[lineIndex] = line_static_str_SHADOW[lineIndex].trimmingCharacters(in: CharacterSet.whitespaces)
 			// If there are multiple underscores due to german "Umlaute" reduce every multiple to one underscore
 			line_static_str_SHADOW[lineIndex] = removeMultipleUnderscores(aString: line_static_str_SHADOW[lineIndex])
-			//print(line_static_str_VISUAL[lineIndex] + " | "  + line_static_str[lineIndex] + " | " + line_static_str_SHADOW[lineIndex] + " | " +  line_char_array[lineIndex].joined(separator: "") );
+			//print(line_static_str_SHADOW[0])
+			print(line_static_str_VISUAL[lineIndex] + " | "  + line_static_str[lineIndex] + " | " + line_static_str_SHADOW[lineIndex] + " | " +  line_char_array[lineIndex].joined(separator: "") );
 			// String not final yet, due to marker confusion?
 			if ( line_static_str[lineIndex] != line_static_str_SHADOW[lineIndex] ) {
 								line_static_str[lineIndex] = line_static_str_SHADOW[lineIndex];
@@ -191,7 +194,7 @@ class DisplayDecoder: NSObject {
 						reset_once[2] = false;
 					}
 				}
-
+				print(line_static_str_VISUAL[0])
 				if (line_complete[0] == 1 &&
 					line_complete[1] == 1 &&
 					( line_static_str_VISUAL[0] != line_static_str[0] ||
@@ -200,7 +203,7 @@ class DisplayDecoder: NSObject {
 						line_static_str_VISUAL[0] = line_static_str[0];
 						line_static_str_VISUAL[1] = line_static_str[1];
 					
-						delegate?.trackInfoWasDecoded(a: line_static_str[0], b: line_static_str[1], c: line_static_str[2], d: line_static_str[3], deck: .DeckA)
+						delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .DeckA)
 						line_complete[0] = 0;
 						line_complete[1] = 0;
 				}
@@ -211,7 +214,7 @@ class DisplayDecoder: NSObject {
 					) {
 						line_static_str_VISUAL[2] = line_static_str[2];
 						line_static_str_VISUAL[3] = line_static_str[3];
-					delegate?.trackInfoWasDecoded(a: line_static_str[0], b: line_static_str[1], c: line_static_str[2], d: line_static_str[3], deck: .DeckB)
+					delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .DeckB)
 					line_complete[0] = 0;
 					line_complete[1] = 0;
 					line_complete[2] = 0;
@@ -233,7 +236,9 @@ class DisplayDecoder: NSObject {
 	// Timestamp, three bytes
 	func midiProc ( a: UInt8, b: UInt8, c: UInt8 ) {
 		let deck = a & 0x01;
-	
+		var isLSB = false
+		//line = -1
+		//tmp_pos = -1
 		switch ( b ) {
 			case 0x01: line = 0; tmp_pos = 0; MSB_0 = c; 
 			case 0x02: line = 0; tmp_pos = 1; MSB_0 = c; 
@@ -248,18 +253,18 @@ class DisplayDecoder: NSObject {
 			case 0x0C: line = 0; tmp_pos = 10;MSB_0 = c; 
 			case 0x0D: line = 0; tmp_pos = 11;MSB_0 = c; 
 
-			case 0x21: line = 0; tmp_pos = 0; LSB_0 = c; 
-			case 0x22: line = 0; tmp_pos = 1; LSB_0 = c; 
-			case 0x23: line = 0; tmp_pos = 2; LSB_0 = c; 
-			case 0x24: line = 0; tmp_pos = 3; LSB_0 = c; 
-			case 0x25: line = 0; tmp_pos = 4; LSB_0 = c; 
-			case 0x27: line = 0; tmp_pos = 5; LSB_0 = c; 
-			case 0x28: line = 0; tmp_pos = 6; LSB_0 = c; 
-			case 0x29: line = 0; tmp_pos = 7; LSB_0 = c; 
-			case 0x2A: line = 0; tmp_pos = 8; LSB_0 = c; 
-			case 0x2B: line = 0; tmp_pos = 9; LSB_0 = c; 
-			case 0x2C: line = 0; tmp_pos = 10;LSB_0 = c; 
-			case 0x2D: line = 0; tmp_pos = 11;LSB_0 = c; 
+			case 0x21: line = 0; tmp_pos = 0; LSB_0 = c; isLSB = true;
+			case 0x22: line = 0; tmp_pos = 1; LSB_0 = c; isLSB = true;
+			case 0x23: line = 0; tmp_pos = 2; LSB_0 = c; isLSB = true;
+			case 0x24: line = 0; tmp_pos = 3; LSB_0 = c; isLSB = true;
+			case 0x25: line = 0; tmp_pos = 4; LSB_0 = c; isLSB = true;
+			case 0x27: line = 0; tmp_pos = 5; LSB_0 = c; isLSB = true;
+			case 0x28: line = 0; tmp_pos = 6; LSB_0 = c; isLSB = true;
+			case 0x29: line = 0; tmp_pos = 7; LSB_0 = c; isLSB = true;
+			case 0x2A: line = 0; tmp_pos = 8; LSB_0 = c; isLSB = true;
+			case 0x2B: line = 0; tmp_pos = 9; LSB_0 = c; isLSB = true;
+			case 0x2C: line = 0; tmp_pos = 10;LSB_0 = c; isLSB = true;
+			case 0x2D: line = 0; tmp_pos = 11;LSB_0 = c; isLSB = true;
 
 			case 0x0E: line = 1; tmp_pos = 0; MSB_1 = c; 
 			case 0x0F: line = 1; tmp_pos = 1; MSB_1 = c; 
@@ -274,25 +279,45 @@ class DisplayDecoder: NSObject {
 			case 0x18: line = 1; tmp_pos = 10;MSB_1 = c; 
 			case 0x19: line = 1; tmp_pos = 11;MSB_1 = c; 
 
-			case 0x2E: line = 1; tmp_pos = 0; LSB_1 = c; 
-			case 0x2F: line = 1; tmp_pos = 1; LSB_1 = c; 
-			case 0x30: line = 1; tmp_pos = 2; LSB_1 = c; 
-			case 0x31: line = 1; tmp_pos = 3; LSB_1 = c; 
-			case 0x32: line = 1; tmp_pos = 4; LSB_1 = c; 
-			case 0x33: line = 1; tmp_pos = 5; LSB_1 = c; 
-			case 0x34: line = 1; tmp_pos = 6; LSB_1 = c; 
-			case 0x35: line = 1; tmp_pos = 7; LSB_1 = c; 
-			case 0x36: line = 1; tmp_pos = 8; LSB_1 = c; 
-			case 0x37: line = 1; tmp_pos = 9; LSB_1 = c; 
-			case 0x38: line = 1; tmp_pos = 10;LSB_1 = c; 
-			case 0x39: line = 1; tmp_pos = 11;LSB_1 = c;
+			case 0x2E: line = 1; tmp_pos = 0; LSB_1 = c; isLSB = true;
+			case 0x2F: line = 1; tmp_pos = 1; LSB_1 = c; isLSB = true;
+			case 0x30: line = 1; tmp_pos = 2; LSB_1 = c; isLSB = true;
+			case 0x31: line = 1; tmp_pos = 3; LSB_1 = c; isLSB = true;
+			case 0x32: line = 1; tmp_pos = 4; LSB_1 = c; isLSB = true;
+			case 0x33: line = 1; tmp_pos = 5; LSB_1 = c; isLSB = true;
+			case 0x34: line = 1; tmp_pos = 6; LSB_1 = c; isLSB = true;
+			case 0x35: line = 1; tmp_pos = 7; LSB_1 = c; isLSB = true;
+			case 0x36: line = 1; tmp_pos = 8; LSB_1 = c; isLSB = true;
+			case 0x37: line = 1; tmp_pos = 9; LSB_1 = c; isLSB = true;
+			case 0x38: line = 1; tmp_pos = 10;LSB_1 = c; isLSB = true;
+			case 0x39: line = 1; tmp_pos = 11;LSB_1 = c; isLSB = true;
+			
 
-		default:
-			line  = -1;
-			tmp_pos  = -1;
-			return
+			case 0x4d: break;
+		// Use a frame update to print the chars
+		/*case 0x4d: if (c == 9) {
+			var chars:[Character] = [ " "," "," "," "," "," "," "," "," "," "," "," " ]
+					for c in 0...11 {
+						chars[c] = Character(UnicodeScalar(((MSBs[c] << 4) | LSBs[c])))
+					}
+				print(String(chars))
+			}
+		*/
+			default:
+				print("%d %d %d", a, b, c)
+				line  = -1;
+				tmp_pos  = -1;
+				return
 		}
 
+		if (line == 0) {
+			if (isLSB == false) {
+				MSBs[tmp_pos] = c
+			}
+			else {
+				LSBs[tmp_pos] = c
+			}
+		}
 		/**
 		var now = Date();
 		var cur_time_stamp = Date()
