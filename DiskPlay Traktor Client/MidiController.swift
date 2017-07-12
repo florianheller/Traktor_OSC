@@ -201,11 +201,10 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 	}
 	
 	//MARK: DisplayDecoder delegate
-	func trackInfoWasDecoded(a:String, b:String, c:String, d:String, deck:TraktorDeck) {
-		print(a)
-		print(b)
-		print(c)
-		print(d)
+	func trackInfoWasDecoded(title:String, artist:String, deck:TraktorDeck)
+	{
+		print(title)
+		print(artist)
 	}
 
 	

@@ -16,7 +16,7 @@ enum TraktorDeck {
 }
 
 protocol DisplayDecoderDelegate {
-	func trackInfoWasDecoded(a:String, b:String, c:String, d:String, deck:TraktorDeck)
+	func trackInfoWasDecoded(title:String, artist:String, deck:TraktorDeck)
 }
 
 class DisplayDecoder: NSObject {
