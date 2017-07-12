@@ -168,7 +168,7 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 					default: break
 					}
 				}
-				displayDecoder.midiProc(a: packet.data.0, b: packet.data.1, c: packet.data.2)
+				displayDecoder.midiProc(a: message.status, b: message.data1, c: message.data2)
 				//return
 			}
 		}
