@@ -12,12 +12,6 @@ func generatorForTuple(tuple: Any) -> AnyIterator<Any> {
 	return AnyIterator(children.makeIterator().lazy.map { $0.value }.makeIterator())
 }
 
-//struct MIDIPacketIterator: IteratorProtocol {
-//	
-//}
-
-
-
 
 /**
 Allows a MIDIPacket to be iterated through with a for statement.

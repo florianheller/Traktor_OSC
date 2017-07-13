@@ -10,7 +10,7 @@ import Cocoa
 import CoreMIDI
 
 class MidiController: NSObject,DisplayDecoderDelegate {
-
+	
 	
 	// Midi connection details
 	var midiInputClient = MIDIClientRef()
