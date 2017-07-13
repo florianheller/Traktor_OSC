@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4C01383F1F13A2DF0058A47A /* MIDIPacket+SequenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */; };
 		4C0138411F13ABE70058A47A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0138401F13ABE70058A47A /* Message.swift */; };
+		4C1F7CD91F166C5B00429C99 /* TraktorLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F7CD81F166C5B00429C99 /* TraktorLibrary.swift */; };
+		4C1F7CF41F166D0400429C99 /* SWXMLHash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1F7CE91F166CEF00429C99 /* SWXMLHash.framework */; };
 		4C2F9D161DDCF79B009021D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */; };
 		4C2F9D181DDCF79B009021D6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2F9D171DDCF79B009021D6 /* ViewController.swift */; };
 		4C2F9D1A1DDCF79B009021D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C2F9D191DDCF79B009021D6 /* Assets.xcassets */; };
@@ -17,9 +19,70 @@
 		4C3E5EBF1DDDBFC1002A5AAE /* MidiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4C1F7CE41F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD6083EF196CA106000B4F8D;
+			remoteInfo = "SWXMLHash iOS";
+		};
+		4C1F7CE61F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD6083FA196CA106000B4F8D;
+			remoteInfo = "SWXMLHash iOS Tests";
+		};
+		4C1F7CE81F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD9D052C1A757D8B003CCB21;
+			remoteInfo = "SWXMLHash OSX";
+		};
+		4C1F7CEA1F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD9D05361A757D8B003CCB21;
+			remoteInfo = "SWXMLHash OSX Tests";
+		};
+		4C1F7CEC1F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CDDEC74C1BF6311A00AB138B;
+			remoteInfo = "SWXMLHash tvOS";
+		};
+		4C1F7CEE1F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CDDEC7551BF6311B00AB138B;
+			remoteInfo = "SWXMLHash tvOS Tests";
+		};
+		4C1F7CF01F166CEF00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CDDEC7681BF6316C00AB138B;
+			remoteInfo = "SWXMLHash watchOS";
+		};
+		4C1F7CF21F166CFD00429C99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CD9D052B1A757D8B003CCB21;
+			remoteInfo = "SWXMLHash OSX";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MIDIPacket+SequenceType.swift"; sourceTree = "<group>"; };
 		4C0138401F13ABE70058A47A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		4C1F7CD81F166C5B00429C99 /* TraktorLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraktorLibrary.swift; sourceTree = "<group>"; };
+		4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SWXMLHash.xcodeproj; path = Submodules/SWXMLHash/SWXMLHash.xcodeproj; sourceTree = SOURCE_ROOT; };
 		4C2F9D121DDCF79B009021D6 /* DiskPlay Traktor Client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DiskPlay Traktor Client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C2F9D151DDCF79B009021D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C2F9D171DDCF79B009021D6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -35,12 +98,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C1F7CF41F166D0400429C99 /* SWXMLHash.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C1F7CDB1F166CEF00429C99 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C1F7CE51F166CEF00429C99 /* SWXMLHash.framework */,
+				4C1F7CE71F166CEF00429C99 /* SWXMLHash iOS Tests.xctest */,
+				4C1F7CE91F166CEF00429C99 /* SWXMLHash.framework */,
+				4C1F7CEB1F166CEF00429C99 /* SWXMLHash OSX Tests.xctest */,
+				4C1F7CED1F166CEF00429C99 /* SWXMLHash.framework */,
+				4C1F7CEF1F166CEF00429C99 /* SWXMLHash tvOS Tests.xctest */,
+				4C1F7CF11F166CEF00429C99 /* SWXMLHash.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4C2F9D091DDCF79B009021D6 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +138,7 @@
 		4C2F9D141DDCF79B009021D6 /* DiskPlay Traktor Client */ = {
 			isa = PBXGroup;
 			children = (
+				4C1F7CD81F166C5B00429C99 /* TraktorLibrary.swift */,
 				4C0138401F13ABE70058A47A /* Message.swift */,
 				4C3E5EBE1DDDBFC1002A5AAE /* MidiController.swift */,
 				4C01383D1F138E8C0058A47A /* MIDIPacket+SequenceType.swift */,
@@ -69,6 +148,7 @@
 				4C2F9D191DDCF79B009021D6 /* Assets.xcassets */,
 				4C2F9D1B1DDCF79B009021D6 /* Main.storyboard */,
 				4C2F9D1E1DDCF79B009021D6 /* Info.plist */,
+				4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */,
 			);
 			path = "DiskPlay Traktor Client";
 			sourceTree = "<group>";
@@ -87,6 +167,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4C1F7CF31F166CFD00429C99 /* PBXTargetDependency */,
 			);
 			name = "DiskPlay Traktor Client";
 			productName = "DiskPlay Traktor Client";
@@ -120,12 +201,70 @@
 			mainGroup = 4C2F9D091DDCF79B009021D6;
 			productRefGroup = 4C2F9D131DDCF79B009021D6 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4C1F7CDB1F166CEF00429C99 /* Products */;
+					ProjectRef = 4C1F7CDA1F166CEF00429C99 /* SWXMLHash.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4C2F9D111DDCF79B009021D6 /* DiskPlay Traktor Client */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4C1F7CE51F166CEF00429C99 /* SWXMLHash.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SWXMLHash.framework;
+			remoteRef = 4C1F7CE41F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CE71F166CEF00429C99 /* SWXMLHash iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SWXMLHash iOS Tests.xctest";
+			remoteRef = 4C1F7CE61F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CE91F166CEF00429C99 /* SWXMLHash.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SWXMLHash.framework;
+			remoteRef = 4C1F7CE81F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CEB1F166CEF00429C99 /* SWXMLHash OSX Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SWXMLHash OSX Tests.xctest";
+			remoteRef = 4C1F7CEA1F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CED1F166CEF00429C99 /* SWXMLHash.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SWXMLHash.framework;
+			remoteRef = 4C1F7CEC1F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CEF1F166CEF00429C99 /* SWXMLHash tvOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SWXMLHash tvOS Tests.xctest";
+			remoteRef = 4C1F7CEE1F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4C1F7CF11F166CEF00429C99 /* SWXMLHash.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SWXMLHash.framework;
+			remoteRef = 4C1F7CF01F166CEF00429C99 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4C2F9D101DDCF79B009021D6 /* Resources */ = {
@@ -149,11 +288,20 @@
 				4C3E5EBF1DDDBFC1002A5AAE /* MidiController.swift in Sources */,
 				4C0138411F13ABE70058A47A /* Message.swift in Sources */,
 				4C01383F1F13A2DF0058A47A /* MIDIPacket+SequenceType.swift in Sources */,
+				4C1F7CD91F166C5B00429C99 /* TraktorLibrary.swift in Sources */,
 				4C2F9D271DDCFD72009021D6 /* DisplayDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4C1F7CF31F166CFD00429C99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SWXMLHash OSX";
+			targetProxy = 4C1F7CF21F166CFD00429C99 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		4C2F9D1B1DDCF79B009021D6 /* Main.storyboard */ = {

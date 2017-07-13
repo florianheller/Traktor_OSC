@@ -11,7 +11,8 @@ import Cocoa
 class ViewController: NSViewController {
 
 	var midiControl = MidiController()
-
+	var library = TraktorLibrary()
+	
 	var titleLabel:[NSTextField] = []
 	
 	@IBOutlet weak var titleLabel0: NSTextField!
