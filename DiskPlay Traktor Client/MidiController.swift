@@ -28,7 +28,7 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 	let startChannelDeckB = 52
 	let diskPlayMidiController = 0xBF
 	
-	var displayDecoder = DisplayDecoder()
+	var displayDecoderA = DisplayDecoder(deck:TraktorDeck.DeckA)
 	weak var viewController:ViewController?
 	
 	//MARK:Object Lifecycle
@@ -88,7 +88,7 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 			
 		}
 		
-		displayDecoder.delegate = self
+		displayDecoderA.delegate = self
 		
 	}
 	
@@ -168,7 +168,8 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 					default: break
 					}
 				}
-				displayDecoder.midiProc(a: message.status, b: message.data1, c: message.data2)
+				//TODO: split this on two displaydecoders for deck A and B
+				displayDecoderA.midiProc(channel: message.data1, value: message.data2)
 				//return
 			}
 		}

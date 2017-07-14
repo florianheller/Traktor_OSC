@@ -15,6 +15,10 @@ enum TraktorDeck {
 	case DeckD
 }
 
+enum DispalyType:Int {
+	case title = 0, artist
+}
+
 protocol DisplayDecoderDelegate {
 	func trackInfoWasDecoded(title:String, artist:String, deck:TraktorDeck)
 }
@@ -22,7 +26,7 @@ protocol DisplayDecoderDelegate {
 class DisplayDecoder: NSObject {
 
 	var delegate:DisplayDecoderDelegate?
-	
+	var deck = TraktorDeck.DeckA
 //	var active_element;
 //	var current_in;
 //	var track;
@@ -73,14 +77,15 @@ class DisplayDecoder: NSObject {
 	var line_static_str_VISUAL = [ "", "", "", "" ]
 	var line_static_str        = [ "", "", "", "" ]
 	var line_static_str_SHADOW = [ "", "", "", "" ]
-
-	var MSBs:[UInt8] = [0 ,0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]
-	var LSBs:[UInt8] = [0 ,0, 0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0]
 	
 	func removeMultipleUnderscores (aString:String) -> String {
 		var str = aString.replacingOccurrences(of: "__", with: "_")
 		str = str.replacingOccurrences(of: "___", with: "_")
 		return str
+	}
+	
+	init(deck:TraktorDeck) {
+		self.deck = deck
 	}
 	
 	// Identical characters following each other are not written by Traktors algorithm!!! Instead Traktor
@@ -234,90 +239,68 @@ class DisplayDecoder: NSObject {
 	
 	// Callback function
 	// Timestamp, three bytes
-	func midiProc ( a: UInt8, b: UInt8, c: UInt8 ) {
-		let deck = a & 0x01;
-		var isLSB = false
-		//line = -1
-		//tmp_pos = -1
-		switch ( b ) {
-			case 0x01: line = 0; tmp_pos = 0; MSB_0 = c; 
-			case 0x02: line = 0; tmp_pos = 1; MSB_0 = c; 
-			case 0x03: line = 0; tmp_pos = 2; MSB_0 = c; 
-			case 0x04: line = 0; tmp_pos = 3; MSB_0 = c; 
-			case 0x05: line = 0; tmp_pos = 4; MSB_0 = c; 
-			case 0x07: line = 0; tmp_pos = 5; MSB_0 = c; 
-			case 0x08: line = 0; tmp_pos = 6; MSB_0 = c; 
-			case 0x09: line = 0; tmp_pos = 7; MSB_0 = c; 
-			case 0x0A: line = 0; tmp_pos = 8; MSB_0 = c; 
-			case 0x0B: line = 0; tmp_pos = 9; MSB_0 = c; 
-			case 0x0C: line = 0; tmp_pos = 10;MSB_0 = c; 
-			case 0x0D: line = 0; tmp_pos = 11;MSB_0 = c; 
+	//func midiProc ( a: UInt8, b: UInt8, c: UInt8 ) {
+	func midiProc(channel:UInt8, value:UInt8) {
 
-			case 0x21: line = 0; tmp_pos = 0; LSB_0 = c; isLSB = true;
-			case 0x22: line = 0; tmp_pos = 1; LSB_0 = c; isLSB = true;
-			case 0x23: line = 0; tmp_pos = 2; LSB_0 = c; isLSB = true;
-			case 0x24: line = 0; tmp_pos = 3; LSB_0 = c; isLSB = true;
-			case 0x25: line = 0; tmp_pos = 4; LSB_0 = c; isLSB = true;
-			case 0x27: line = 0; tmp_pos = 5; LSB_0 = c; isLSB = true;
-			case 0x28: line = 0; tmp_pos = 6; LSB_0 = c; isLSB = true;
-			case 0x29: line = 0; tmp_pos = 7; LSB_0 = c; isLSB = true;
-			case 0x2A: line = 0; tmp_pos = 8; LSB_0 = c; isLSB = true;
-			case 0x2B: line = 0; tmp_pos = 9; LSB_0 = c; isLSB = true;
-			case 0x2C: line = 0; tmp_pos = 10;LSB_0 = c; isLSB = true;
-			case 0x2D: line = 0; tmp_pos = 11;LSB_0 = c; isLSB = true;
+		switch ( channel ) {
+			case 0x01: line = 0; tmp_pos = 0; MSB_0 = value; 
+			case 0x02: line = 0; tmp_pos = 1; MSB_0 = value; 
+			case 0x03: line = 0; tmp_pos = 2; MSB_0 = value; 
+			case 0x04: line = 0; tmp_pos = 3; MSB_0 = value;
+			case 0x05: line = 0; tmp_pos = 4; MSB_0 = value; 
+			case 0x07: line = 0; tmp_pos = 5; MSB_0 = value; 
+			case 0x08: line = 0; tmp_pos = 6; MSB_0 = value; 
+			case 0x09: line = 0; tmp_pos = 7; MSB_0 = value; 
+			case 0x0A: line = 0; tmp_pos = 8; MSB_0 = value; 
+			case 0x0B: line = 0; tmp_pos = 9; MSB_0 = value; 
+			case 0x0C: line = 0; tmp_pos = 10;MSB_0 = value; 
+			case 0x0D: line = 0; tmp_pos = 11;MSB_0 = value; 
 
-			case 0x0E: line = 1; tmp_pos = 0; MSB_1 = c; 
-			case 0x0F: line = 1; tmp_pos = 1; MSB_1 = c; 
-			case 0x10: line = 1; tmp_pos = 2; MSB_1 = c; 
-			case 0x11: line = 1; tmp_pos = 3; MSB_1 = c; 
-			case 0x12: line = 1; tmp_pos = 4; MSB_1 = c; 
-			case 0x13: line = 1; tmp_pos = 5; MSB_1 = c; 
-			case 0x14: line = 1; tmp_pos = 6; MSB_1 = c; 
-			case 0x15: line = 1; tmp_pos = 7; MSB_1 = c; 
-			case 0x16: line = 1; tmp_pos = 8; MSB_1 = c; 
-			case 0x17: line = 1; tmp_pos = 9; MSB_1 = c; 
-			case 0x18: line = 1; tmp_pos = 10;MSB_1 = c; 
-			case 0x19: line = 1; tmp_pos = 11;MSB_1 = c; 
+			case 0x21: line = 0; tmp_pos = 0; LSB_0 = value; 
+			case 0x22: line = 0; tmp_pos = 1; LSB_0 = value; 
+			case 0x23: line = 0; tmp_pos = 2; LSB_0 = value; 
+			case 0x24: line = 0; tmp_pos = 3; LSB_0 = value; 
+			case 0x25: line = 0; tmp_pos = 4; LSB_0 = value; 
+			case 0x27: line = 0; tmp_pos = 5; LSB_0 = value; 
+			case 0x28: line = 0; tmp_pos = 6; LSB_0 = value; 
+			case 0x29: line = 0; tmp_pos = 7; LSB_0 = value; 
+			case 0x2A: line = 0; tmp_pos = 8; LSB_0 = value; 
+			case 0x2B: line = 0; tmp_pos = 9; LSB_0 = value; 
+			case 0x2C: line = 0; tmp_pos = 10;LSB_0 = value; 
+			case 0x2D: line = 0; tmp_pos = 11;LSB_0 = value;
+	
+			case 0x0E: line = 1; tmp_pos = 0; MSB_1 = value; 
+			case 0x0F: line = 1; tmp_pos = 1; MSB_1 = value; 
+			case 0x10: line = 1; tmp_pos = 2; MSB_1 = value; 
+			case 0x11: line = 1; tmp_pos = 3; MSB_1 = value; 
+			case 0x12: line = 1; tmp_pos = 4; MSB_1 = value; 
+			case 0x13: line = 1; tmp_pos = 5; MSB_1 = value; 
+			case 0x14: line = 1; tmp_pos = 6; MSB_1 = value; 
+			case 0x15: line = 1; tmp_pos = 7; MSB_1 = value; 
+			case 0x16: line = 1; tmp_pos = 8; MSB_1 = value; 
+			case 0x17: line = 1; tmp_pos = 9; MSB_1 = value; 
+			case 0x18: line = 1; tmp_pos = 10;MSB_1 = value; 
+			case 0x19: line = 1; tmp_pos = 11;MSB_1 = value; 
 
-			case 0x2E: line = 1; tmp_pos = 0; LSB_1 = c; isLSB = true;
-			case 0x2F: line = 1; tmp_pos = 1; LSB_1 = c; isLSB = true;
-			case 0x30: line = 1; tmp_pos = 2; LSB_1 = c; isLSB = true;
-			case 0x31: line = 1; tmp_pos = 3; LSB_1 = c; isLSB = true;
-			case 0x32: line = 1; tmp_pos = 4; LSB_1 = c; isLSB = true;
-			case 0x33: line = 1; tmp_pos = 5; LSB_1 = c; isLSB = true;
-			case 0x34: line = 1; tmp_pos = 6; LSB_1 = c; isLSB = true;
-			case 0x35: line = 1; tmp_pos = 7; LSB_1 = c; isLSB = true;
-			case 0x36: line = 1; tmp_pos = 8; LSB_1 = c; isLSB = true;
-			case 0x37: line = 1; tmp_pos = 9; LSB_1 = c; isLSB = true;
-			case 0x38: line = 1; tmp_pos = 10;LSB_1 = c; isLSB = true;
-			case 0x39: line = 1; tmp_pos = 11;LSB_1 = c; isLSB = true;
+			case 0x2E: line = 1; tmp_pos = 0; LSB_1 = value; 
+			case 0x2F: line = 1; tmp_pos = 1; LSB_1 = value; 
+			case 0x30: line = 1; tmp_pos = 2; LSB_1 = value; 
+			case 0x31: line = 1; tmp_pos = 3; LSB_1 = value; 
+			case 0x32: line = 1; tmp_pos = 4; LSB_1 = value; 
+			case 0x33: line = 1; tmp_pos = 5; LSB_1 = value; 
+			case 0x34: line = 1; tmp_pos = 6; LSB_1 = value; 
+			case 0x35: line = 1; tmp_pos = 7; LSB_1 = value; 
+			case 0x36: line = 1; tmp_pos = 8; LSB_1 = value; 
+			case 0x37: line = 1; tmp_pos = 9; LSB_1 = value; 
+			case 0x38: line = 1; tmp_pos = 10;LSB_1 = value; 
+			case 0x39: line = 1; tmp_pos = 11;LSB_1 = value;
 			
-
-			case 0x4d: break;
-		// Use a frame update to print the chars
-		/*case 0x4d: if (c == 9) {
-			var chars:[Character] = [ " "," "," "," "," "," "," "," "," "," "," "," " ]
-					for c in 0...11 {
-						chars[c] = Character(UnicodeScalar(((MSBs[c] << 4) | LSBs[c])))
-					}
-				print(String(chars))
-			}
-		*/
 			default:
-				print("%d %d %d", a, b, c)
+				print("%d %d", channel, value)
 				line  = -1;
 				tmp_pos  = -1;
 				return
-		}
-
-		if (line == 0) {
-			if (isLSB == false) {
-				MSBs[tmp_pos] = c
 			}
-			else {
-				LSBs[tmp_pos] = c
-			}
-		}
 		/**
 		var now = Date();
 		var cur_time_stamp = Date()
@@ -433,26 +416,14 @@ class DisplayDecoder: NSObject {
 
 		guard char_complete != false else { return }
 
-		if ( deck == 0 ) { // Deck A
-			if ( line == 0 ) {// Line 1
-				pos[0] = tmp_pos;
-				fillUnwrittenChars ( inString: str, lineIndex: 0 );
-				findStart ( lineIndex: 0 );
-			} else { // Line 2
-				pos[1] = tmp_pos;
-				fillUnwrittenChars ( inString: str, lineIndex: 1 );
-				findStart ( lineIndex: 1 );
-			}
-		} else { // Deck B
-			if ( line == 0 ) { // Line 1
-				pos[2] = tmp_pos;
-				fillUnwrittenChars ( inString: str, lineIndex: 2 );
-				findStart ( lineIndex: 2 );
-			} else { // Line 2
-				pos[3] = tmp_pos;
-				fillUnwrittenChars ( inString: str, lineIndex: 3 );
-				findStart ( lineIndex: 3 );
-			}
+		if ( line == 0 ) {// Line 1
+			pos[0] = tmp_pos;
+			fillUnwrittenChars ( inString: str, lineIndex: 0 );
+			findStart ( lineIndex: 0 );
+		} else { // Line 2
+			pos[1] = tmp_pos;
+			fillUnwrittenChars ( inString: str, lineIndex: 1 );
+			findStart ( lineIndex: 1 );
 		}
 	}
 	
