@@ -24,8 +24,13 @@ class TraktorLibrary: NSObject {
 	
 	override init() {
 		super.init()
+		//
 		trackCollection = loadCollection(url: URL.init(fileURLWithPath: "/Users/heller/Documents/Native Instruments/Traktor 2.11.0/collection.nml"))
-		print(trackCollection)
+	}
+	
+	init(url:URL) {
+		super.init()
+		trackCollection = loadCollection(url: url)
 	}
 	
 	func loadCollection(url:URL) -> [TraktorTrack] {
