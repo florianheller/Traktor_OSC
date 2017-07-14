@@ -301,65 +301,6 @@ class DisplayDecoder: NSObject {
 				tmp_pos  = -1;
 				return
 			}
-		/**
-		var now = Date();
-		var cur_time_stamp = Date()
-
-		// 0x44 is a TimeFrame update, which in this case is used, to check whether the decks are playing or not.
-		
-		if ( b == 0x44 ) {
-			if ( deck == 0 ) {
-				if ( last_time_stamp_deck_A != nil ) {
-					time_count_A += cur_time_stamp.timeIntervalSince(last_time_stamp_deck_A!)
-				}
-				last_time_stamp_deck_A = cur_time_stamp;
-					
-			} else {
-				if ( last_time_stamp_deck_B != nil ) {
-					time_count_B += cur_time_stamp.timeIntervalSince(last_time_stamp_deck_B!)
-				}
-				last_time_stamp_deck_B = cur_time_stamp;
-			}
-		}
-
-		if ( cur_time_stamp.timeIntervalSince((last_time_stamp_deck_A?)!) >= 500 ) {
-			time_count_A = 0;
-			played_A_sent = false;
-			last_time_stamp_deck_A = nil;
-//							$( "#console" ).html( "A: Stop\n" );
-		}
-//						else
-//							$( "#console" ).html( "A: Play\n" );
-
-		if ( cur_time_stamp.timeIntervalSince(last_time_stamp_deck_B!) >= 500 ) {
-			time_count_B = 0;
-			played_B_sent = false;
-			last_time_stamp_deck_B = nil;
-//							$( "#console" ).html( $( "#console" ).html() + "B: Stop\n" );
-		}
-//						else
-//							$( "#console" ).html( $( "#console" ).html() + "B: Play\n" );
-
-		if ( time_count_A > 30000 ) {
-			//document.getElementById ( "console" ).innerHTML += "A: Payed!\n";
-
-			if ( played_A_sent == false ) {
-				//$('#border_deck_A').css({'background':DECK_GREEN});
-				played_A_sent = true;
-				//HandleDeckPlayedEvent ( "A" );
-			}
-		}
-
-		if ( time_count_B > 30000 ) {
-			//document.getElementById ( "console" ).innerHTML += "B: Payed!\n";
-
-			if ( played_B_sent == false ) {
-				//$('#border_deck_B').css({'background':DECK_GREEN});
-				played_B_sent = true;
-				//HandleDeckPlayedEvent ( "B" );
-			}
-		}
-**/
 		char_complete = false;
 
 		// Check if LSB_0 received
