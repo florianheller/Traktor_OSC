@@ -6,6 +6,8 @@
 //  Copyright © 2016 Florian Heller - UHasselt. All rights reserved.
 //
 //	Based on the script by Bernd Konnerth <Bernd@konnerth.de>
+//  The purpose of this class is to receive the display data for a Denon Controller and to decode it
+//  in collaboration with the TraktorLibrary do find the track that is currently playing.
 import Cocoa
 
 
@@ -17,18 +19,36 @@ enum TraktorDeck: Character {
 	case D = "D"
 }
 
-enum DispalyType:Int {
+enum DisplayType:Int {
 	case title = 0, artist
 }
 
+// Instead of the many global variables that were used in the original script
+// we'll use one struct per line
+
+struct DisplayLine {
+	var info:DisplayType = .title
+	var MSB:UInt8? = 0
+	var LSB:UInt8? = 0
+	var waitingForLSB = false	///Are we still waiting for the LSB to arrive?
+	var currentPosition = 0		///The character position that is currently updated
+	var lastUpdatedPosition = 0 ///The last character position that was updated
+}
+
+//MARK: - Delegate protocol
 protocol DisplayDecoderDelegate {
 	func trackInfoWasDecoded(title:String, artist:String, deck:TraktorDeck)
 }
 
+// MARK: -
 class DisplayDecoder: NSObject {
 
-	var delegate:DisplayDecoderDelegate?
+// MARK: Variables
+	var delegate:DisplayDecoderDelegate? /// The delegate to which to send the track info
 	var deck = TraktorDeck.A			 /// Whose data are we handling here
+	
+	var title = DisplayLine()
+	var artist = DisplayLine()
 //	var active_element;
 //	var current_in;
 //	var track;
@@ -42,6 +62,7 @@ class DisplayDecoder: NSObject {
 	var line  = -1;
 	var tmp_pos = 0;
 	
+	// Playback indicators
 	var playing_A = false;
 	var play_A_1 = false;
 	var play_A_2 = false;
@@ -71,6 +92,7 @@ class DisplayDecoder: NSObject {
 	var str = String()
 	var reset_once = [ false, false, false, false ]
 	
+	// The content of our displays
 	var line_char_array = [  [ "","","","","","","","","","","","" ],
 	[ "","","","","","","","","","","","" ],
 	[ "","","","","","","","","","","","" ],
@@ -80,6 +102,8 @@ class DisplayDecoder: NSObject {
 	var line_static_str        = [ "", "", "", "" ]
 	var line_static_str_SHADOW = [ "", "", "", "" ]
 	
+	var displayStrings = ["", ""]
+	
 	func removeMultipleUnderscores (aString:String) -> String {
 		var str = aString.replacingOccurrences(of: "__", with: "_")
 		str = str.replacingOccurrences(of: "___", with: "_")
@@ -88,6 +112,7 @@ class DisplayDecoder: NSObject {
 	
 	init(deck:TraktorDeck) {
 		self.deck = deck
+		artist.info = .artist
 	}
 	
 	// Identical characters following each other are not written by Traktors algorithm!!! Instead Traktor
@@ -103,6 +128,16 @@ class DisplayDecoder: NSObject {
 	//      *
 	//       ......
 	// FillUnwrittenChars() performs this mechanism
+	
+	/* To minimize the number of MIDI messages, Traktor only sends updates when really necessary.
+	 * This means that if two subsequent letters are identical, it only updates the one that changes
+	 * Will Sur
+	 * ill Surv - only the first one is updated
+	 * ll Survi - only the first one is updated
+	 * We thus need to keep track wether traktor jumped over
+
+
+	*/
 	func fillUnwrittenChars( inString:String, lineIndex:Int ) {
 		line_char_array[lineIndex][pos[lineIndex]] = inString;
 		if ( pos[lineIndex] - last_pos[lineIndex] > 1 && line_char_array[lineIndex][last_pos[lineIndex]] != "_" ) {
@@ -141,8 +176,10 @@ class DisplayDecoder: NSObject {
 	
 	
 	func findStart(lineIndex: Int) {
+		//Transform the array of chars into a string
 		line_static_str_SHADOW[lineIndex] = line_char_array[lineIndex].joined(separator: "")
-		// Make a String out of the elements we have
+		
+		// Traktor uses three blanks as delimiter
 		// If we have three blanks somewhere in the string
 		if (line_static_str_SHADOW[lineIndex].contains("   ")) {
 			// Remove trailing blanks
@@ -150,12 +187,13 @@ class DisplayDecoder: NSObject {
 			// If there are multiple underscores due to german "Umlaute" reduce every multiple to one underscore
 			line_static_str_SHADOW[lineIndex] = removeMultipleUnderscores(aString: line_static_str_SHADOW[lineIndex])
 			//print(line_static_str_SHADOW[0])
-			print(line_static_str_VISUAL[lineIndex] + " | "  + line_static_str[lineIndex] + " | " + line_static_str_SHADOW[lineIndex] + " | " +  line_char_array[lineIndex].joined(separator: "") );
+			//print(line_static_str_VISUAL[lineIndex] + " | "  + line_static_str[lineIndex] + " | " + line_static_str_SHADOW[lineIndex] + " | " +  line_char_array[lineIndex].joined(separator: "") );
 			// String not final yet, due to marker confusion?
 			if ( line_static_str[lineIndex] != line_static_str_SHADOW[lineIndex] ) {
 								line_static_str[lineIndex] = line_static_str_SHADOW[lineIndex];
 								line_complete[lineIndex] = 0;
 			}
+			// Shadow and non-shadow
 			else {
 				line_complete[lineIndex] = 1;
 				// If line 0 has been completed reset line 1 once to ensure that track an artist match. Otherwise a track could get the wrong artist!
@@ -201,7 +239,7 @@ class DisplayDecoder: NSObject {
 						reset_once[2] = false;
 					}
 				}
-				print(line_static_str_VISUAL[0])
+				//print(line_static_str_VISUAL[0])
 				if (line_complete[0] == 1 &&
 					line_complete[1] == 1 &&
 					( line_static_str_VISUAL[0] != line_static_str[0] ||
@@ -210,7 +248,7 @@ class DisplayDecoder: NSObject {
 						line_static_str_VISUAL[0] = line_static_str[0];
 						line_static_str_VISUAL[1] = line_static_str[1];
 					
-						delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .DeckA)
+						delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .A)
 						line_complete[0] = 0;
 						line_complete[1] = 0;
 				}
@@ -221,7 +259,7 @@ class DisplayDecoder: NSObject {
 					) {
 						line_static_str_VISUAL[2] = line_static_str[2];
 						line_static_str_VISUAL[3] = line_static_str[3];
-					delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .DeckB)
+					delegate?.trackInfoWasDecoded(title: line_static_str[0], artist: line_static_str[1], deck: .B)
 					line_complete[0] = 0;
 					line_complete[1] = 0;
 					line_complete[2] = 0;
@@ -243,7 +281,6 @@ class DisplayDecoder: NSObject {
 	// Timestamp, three bytes
 	//func midiProc ( a: UInt8, b: UInt8, c: UInt8 ) {
 	func midiProc(channel:UInt8, value:UInt8) {
-
 		switch ( channel ) {
 			case 0x01: line = 0; tmp_pos = 0; MSB_0 = value; 
 			case 0x02: line = 0; tmp_pos = 1; MSB_0 = value; 
@@ -297,6 +334,9 @@ class DisplayDecoder: NSObject {
 			case 0x38: line = 1; tmp_pos = 10;LSB_1 = value; 
 			case 0x39: line = 1; tmp_pos = 11;LSB_1 = value;
 			
+			case 0x4D: return
+			case 0x4E: return
+			
 			default:
 				print("%d %d", channel, value)
 				line  = -1;
@@ -304,7 +344,6 @@ class DisplayDecoder: NSObject {
 				return
 			}
 		char_complete = false;
-
 		// Check if LSB_0 received
 		if ( MSB_0 != nil && LSB_0 == nil ) {
 			if ( WAIT_LSB_0 == 1 ) {
@@ -356,18 +395,41 @@ class DisplayDecoder: NSObject {
 			WAIT_LSB_1 = 0;
 			char_complete = true;
 		}
-
 		guard char_complete != false else { return }
 
 		if ( line == 0 ) {// Line 1
 			pos[0] = tmp_pos;
+			if channel==0x2D {	//only append last character in Segment 1
+				append(character: str, display: .title)
+			}
 			fillUnwrittenChars ( inString: str, lineIndex: 0 );
 			findStart ( lineIndex: 0 );
 		} else { // Line 2
 			pos[1] = tmp_pos;
+			if channel==0x39 { //only append the last character in Segment 2
+				append(character: str, display: .artist)
+			}
 			fillUnwrittenChars ( inString: str, lineIndex: 1 );
 			findStart ( lineIndex: 1 );
 		}
 	}
 	
+	//MARK: - String rework
+	func fillUnwrittenCharacters(inString:String) -> String {
+		return ""
+	}
+	
+	//Appends a character to what we have stored so far
+	func append(character:String, display:DisplayType) {
+		displayStrings[display.rawValue].append(character)
+		
+		if (displayStrings[display.rawValue].count == 8 ) {
+			print(displayStrings[display.rawValue])
+		}
+
+		//Check if we have the delimiter of three spaces
+		if displayStrings[display.rawValue].contains("   ") {
+			print(displayStrings[display.rawValue])
+		}
+	}
 }
