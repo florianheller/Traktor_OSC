@@ -28,7 +28,7 @@ class MidiController: NSObject,DisplayDecoderDelegate {
 	let startChannelDeckB = 52
 	let diskPlayMidiController = 0xBF
 	
-	var displayDecoderA = DisplayDecoder(deck:TraktorDeck.DeckA)
+	var displayDecoderA = DisplayDecoder(deck:TraktorDeck.A)
 	weak var viewController:ViewController?
 	
 	//MARK:Object Lifecycle

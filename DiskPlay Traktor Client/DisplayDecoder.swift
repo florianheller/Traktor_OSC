@@ -8,11 +8,13 @@
 //	Based on the script by Bernd Konnerth <Bernd@konnerth.de>
 import Cocoa
 
-enum TraktorDeck {
-	case DeckA
-	case DeckB
-	case DeckC
-	case DeckD
+
+// MARK: Display Enums
+enum TraktorDeck: Character {
+	case A = "A"
+	case B = "B"
+	case C = "C"
+	case D = "D"
 }
 
 enum DispalyType:Int {
@@ -26,7 +28,7 @@ protocol DisplayDecoderDelegate {
 class DisplayDecoder: NSObject {
 
 	var delegate:DisplayDecoderDelegate?
-	var deck = TraktorDeck.DeckA
+	var deck = TraktorDeck.A			 /// Whose data are we handling here
 //	var active_element;
 //	var current_in;
 //	var track;
